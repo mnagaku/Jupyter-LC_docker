@@ -6,23 +6,16 @@ USER root
 RUN apt-get update && apt-get install -yq --no-install-recommends \
     git \
     vim \
-    jed \
-    emacs \
     unzip \
-    libsm6 \
-    pandoc \
-    texlive-latex-base \
-    texlive-latex-extra \
-    texlive-fonts-extra \
-    texlive-fonts-recommended \
-    texlive-generic-recommended \
-    libxrender1 \
-    inkscape \
-    wget \
     curl \
-    fonts-ipafont-gothic fonts-ipafont-mincho \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    fonts-ipafont-gothic fonts-ipafont-mincho && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install requests paramiko ansible && \
+    mkdir -p /etc/ansible && cp /tmp/ansible.cfg /etc/ansible/ansible.cfg && \
+    cp /tmp/bash_env /etc/bash_env && \
+    echo "$NB_USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$NB_USER && \
+    echo PATH=/opt/conda/bin:$PATH >> /root/.bash_profile
 
 # Copy config files
 ADD conf /tmp/
